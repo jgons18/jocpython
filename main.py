@@ -7,9 +7,25 @@ RPG Game
 Get to the Garden with a key and a potion
 Avoid the monsters!
 Commands:
+  list(got all directions avaible) 
   go [direction]
   get [item]
 ''')
+def listar():
+  text=''
+  if 'up' in rooms[currentRoom]:
+    text+='   up    '
+  if 'down' in rooms[currentRoom]:
+    text+='   down  '
+  if 'east' in rooms[currentRoom]:
+    text+='   east  '
+  if 'west' in rooms[currentRoom]:
+    text+='   west    '
+  if 'north' in rooms[currentRoom]:
+    text+='   north   '
+  if 'south' in rooms[currentRoom]:
+    text+='   south   '
+  print(text)
 def showStatus():
   #print the player's current status
   print('---------------------------')
@@ -24,8 +40,22 @@ def showStatus():
 inventory = []
 #a dictionary linking a room to other room positions
 rooms = {
+            #Planta -1
+            'Garage' : { 'up'  : 'Hall',
+                  'west' : 'Storage Room',
+                  'south'    : 'Workshop',
+                  'item'  : 'wrench'
+              
+                },
+            'Storage Room' : { 'east'  : 'Garage',
+                  'item'  : 'amount'
+                },
+            'Workshop' : { 'north'  : 'Garage',
+            },
+            #Planta 0
             'Hall' : { 'south' : 'Kitchen',
                   'east'  : 'Dining Room',
+                  'down'  : 'Garage',
                   'item'  : 'key'
                 },        
             'Kitchen' : { 'north' : 'Hall',
@@ -34,11 +64,28 @@ rooms = {
                 
             'Dining Room' : { 'west'  : 'Hall',
                   'south' : 'Garden',
+                  'up'    : 'Living Room',
                   'item'  : 'potion'
               
                 },
                 
-            'Garden' : { 'north' : 'Dining Room' }
+            'Garden' : { 'north' : 'Dining Room' },
+            #Planta 1
+            'Living Room' : { 'east'  : 'Room',
+                  'north' : 'Bathroom',
+                  'down'    : 'Dining Room',
+                  'item'  : 'gun'
+              
+                },
+            'Room' : { 'west'  : 'Living Room',
+              'north' : 'Despach',
+              'item'  : 'key(basement)'
+            },
+            'Despach' : { 'west'  : 'Bathroom',
+              'south' : 'Room',
+              'item'  : 'amount'
+            },
+
          }
 #start the player in the Hall
 currentRoom = 'Hall'
@@ -55,6 +102,9 @@ while True:
     move = input('>')
     
   move = move.lower().split()
+  #If move[0] = list list the options avaiable
+  if move[0] == 'list':
+    listar()
   #if they type 'go' first
   if move[0] == 'go':
     #check that they are allowed wherever they want to go
@@ -86,3 +136,9 @@ while True:
   if currentRoom == 'Garden' and 'key' in inventory and 'potion' in inventory:
     print('You escaped the house... YOU WIN!')
     break
+  # player can go to the basement if got the key(basement)
+  if currentRoom == 'Garage' and 'key(basement)' in inventory:
+    print("You have the key!!!")
+  elif currentRoom == 'Garage':
+    print("You don't have the key!!!")
+    currentRoom='Hall'
