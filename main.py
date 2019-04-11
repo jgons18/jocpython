@@ -137,7 +137,6 @@ rooms = {
             'Bathroom' : { 'east'  : 'Despach',
               'south' : 'Living Room',
             },
-
          }
 #Definine iniatial life for monster
 l_monster=3
