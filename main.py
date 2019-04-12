@@ -86,7 +86,7 @@ def person_random_room(room):
         currentRoom=key
         break
 #an inventory, which is initially empty
-inventory = ['gun','amount']
+inventory = ['gun','amount','key(basement)']
 #a dictionary linking a room to other room positions
 rooms = {
             #Planta -1
@@ -139,6 +139,8 @@ rooms = {
             },
 
          }
+#Llave del sotano se usa
+f_key_basement=False
 #Definine iniatial life for monster
 l_monster=3
 #start the player in the Hall
@@ -245,18 +247,16 @@ while True:
         print('You escaped the house... YOU WIN!')
         break
       # player can go to the basement if got the key(basement)
-      if currentRoom == 'Garage' and 'key(basement)' in inventory and cont is 0:
-        print("-----------------------------")
-        print("You have the key(basement)!!!\n")
-        print("Use the key(basement) and open door.YOU ARE INSIDE!!!")
-        for index,i_item in enumerate(inventory):
-                if i_item==item:
-                  print("------------------------")
-                  print("Lost "+item+"!")
-                  del inventory[index]
-      elif currentRoom == 'Garage':
-        print("You don't have the key(basement)!!!")
-        currentRoom='Hall'
+      if f_key_basement is False:
+        if currentRoom == 'Garage' and 'key(basement)' in inventory:
+          print("-----------------------------")
+          print("You have the key(basement)!!!\n")
+          print("Use the key(basement) and open door.YOU ARE INSIDE!!!")
+          del_inventory_item('key(basement)')
+          f_key_basement=True
+        elif currentRoom == 'Garage':
+          print("You don't have the key(basement)!!!")
+          currentRoom='Hall'
     else:
       print("------------------")
       print("Missing parameters")
