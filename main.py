@@ -137,6 +137,7 @@ rooms = {
             'Bathroom' : { 'east'  : 'Despach',
               'south' : 'Living Room',
             },
+
          }
 #Llave del sotano se usa
 f_key_basement=False
