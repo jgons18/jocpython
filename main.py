@@ -84,7 +84,9 @@ rooms = {
               
                 },
                 
-            'Garden' : { 'north' : 'Dining Room' },
+            'Garden' : { 'north' : 'Dining Room',
+                  'left' : 'Dining Room 2', #accés a la casa de convidats
+            },
             #Planta 1
             'Living Room' : { 'east'  : 'Room',
                   'north' : 'Bathroom',
@@ -103,6 +105,31 @@ rooms = {
             'Bathroom' : { 'east'  : 'Despach',
               'south' : 'Living Room',
             },
+            #Casa dels convidats
+            #Planta principal 
+            'Dining Room 2' : {'north': 'Kitchen 4',
+              'west'  : 'Bathroom 2',
+              'right' : 'Garden',
+              'down'  : 'Gym 6'
+            },
+            'Kitchen 4' : {'up' : 'Room 1',
+              'west' : 'Laundry 7',
+              'south' : 'Dining Room 2',
+            },
+            'Laundry 7' : {'east' : 'Kitchen 4',
+              'south' : 'Bathroom 2',
+              'item' : 'lantern' #llinterna útil pel bunker
+            },
+            'Bathroom 2' : {'north' : 'Laundry 7',
+              'east' : 'Dining Room 2',
+            },
+            'Gym 6' : {'up' : 'Dining Room 2',
+              'right' : 'Bunker'
+            },
+            'Bunker' : {'left' : 'Gym 6'
+
+            }
+
          }
 #start the player in the Hall
 currentRoom = 'Hall'
