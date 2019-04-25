@@ -5,7 +5,7 @@ def showInstructions():
     print('''
 RPG Game
 ========
-Get to the Garden with a key(repeared) to exit
+Get to the Bunker and press the correct code to exit
 With each successful attack the moster loses 2 hearts!
 Commands:
   list(got all directions avaible) 
@@ -104,7 +104,7 @@ rooms = {
               
                 },
             'Storage Room' : { 'east'  : 'Garage',
-                  'item'  : 'amount'
+                  'item'  : 'Key(guest_house)'
                 },
             'Workshop' : { 'north'  : 'Garage',
             },
@@ -112,7 +112,7 @@ rooms = {
             'Hall' : { 'south' : 'Kitchen',
                   'east'  : 'Dining Room',
                   'down'  : 'Garage',
-                  'item'  : 'key'
+                  'item'  : 'amount'
                 },        
             'Kitchen' : { 'north' : 'Hall',
                   'item'  : 'monster'
@@ -148,6 +148,8 @@ rooms = {
          }
 #Llave del sotano se usa
 f_key_basement=False
+#Llave de la casa de invitados
+f_key_guest_house=False
 #Definine iniatial life for player
 l_player=4
 #Definine iniatial life for monster
@@ -292,6 +294,27 @@ while True:
         elif currentRoom == 'Garage':
           print("You don't have the key(basement)!!!")
           currentRoom='Hall'
+      if f_key_guest_house is False:
+        if currentRoom == 'Dining room 2' and 'key(guest_house)' in inventory:
+            print("-----------------------------")
+            print("You have the key(guest_house)!!!\n")
+            print("Use the key(guest_house) and open door.YOU ARE INSIDE SECOND HOUSE!!!")
+            del_inventory_item('key(guest_house)')
+            f_key_second_house=True
+          elif currentRoom == 'Dining room 2':
+            print("You don't have the key(guest_house)!!!")
+            currentRoom='Garden'
+      if currentRoom == 'Bunker':
+        print("-----------------------------")
+        print("You see a door with numeric keypad")
+        print("Try the pin (5)\n")
+        code = input('>')
+        if code== '27426':
+          print("You get to the bunker at last you're safe")
+          print('YOU WIN!!!')
+          break
+        else:
+          print('Check out all these rooms to see the code')
     else:
       print("------------------")
       print("Missing parameters")
