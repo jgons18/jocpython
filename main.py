@@ -5,8 +5,8 @@ def showInstructions():
     print('''
 RPG Game
 ========
-Get to the Garden with a key and a potion
-Avoid the monsters!
+Get to the Bunker and press the correct code to exit
+With each successful attack the moster loses 2 hearts!
 Commands:
   list(got all directions avaible) 
   go [direction]
@@ -50,7 +50,7 @@ def listar(tipo):
       return 'south'
 def showStatus():
   #print the player's current status
-  print('--------------------------- life of monster: ','♥ '*l_monster)
+  print('---------- life of player','♥ '*l_player,'  ---------- life of monster: ','♥ '*l_monster)
   print('You are in the ' + currentRoom)
   #print the current inventory
   print("Inventory : " + str(inventory))
@@ -76,6 +76,13 @@ def monster_random_room():
   else:
     del rooms[previous_room]['item']
   rooms[new_room]['item']='monster'
+def monster_attack(life):
+  rand=random.randrange(50)
+  if rand%2 is 0:
+    life=life-2
+    return life
+  else:
+    return 'ok'
 def person_random_room(room):
   rand=random.randrange(11)
   for index,key in enumerate(rooms.keys()):
@@ -86,7 +93,7 @@ def person_random_room(room):
         currentRoom=key
         break
 #an inventory, which is initially empty
-inventory = ['gun','amount','key(basement)']
+inventory = []
 #a dictionary linking a room to other room positions
 rooms = {
             #Planta -1
@@ -97,7 +104,7 @@ rooms = {
               
                 },
             'Storage Room' : { 'east'  : 'Garage',
-                  'item'  : 'amount'
+                  'item'  : 'Key(guest_house)'
                 },
             'Workshop' : { 'north'  : 'Garage',
             },
@@ -105,7 +112,7 @@ rooms = {
             'Hall' : { 'south' : 'Kitchen',
                   'east'  : 'Dining Room',
                   'down'  : 'Garage',
-                  'item'  : 'key'
+                  'item'  : 'amount'
                 },        
             'Kitchen' : { 'north' : 'Hall',
                   'item'  : 'monster'
@@ -166,6 +173,10 @@ rooms = {
          }
 #Llave del sotano se usa
 f_key_basement=False
+#Llave de la casa de invitados
+f_key_guest_house=False
+#Definine iniatial life for player
+l_player=4
 #Definine iniatial life for monster
 l_monster=3
 #start the player in the Hall
@@ -256,17 +267,43 @@ while True:
           del_inventory_item('amount')
           #The monster lost one life
           l_monster=l_monster-1
-      #Si tiene la pocion huye del monster a toda prisa
+      #Si tiene la pocion Puede elegir entr tirarla y huir o intentar escapat
         elif 'potion' in inventory:
           print("---------------------------------------------------")
-          print("You found a monster but you have potion\n")
-          print("He attacks you but you take the potion and you run away")
+          print('Choose one option:\n')
+          print(' -Drink to Drink potion for restore one ♥ (Default)')
+          print(' -Throw to Throw the potion and run. (50% of succes)')
+          print("---------------------------------------------------")
+          move = move
+          opt=input('>')
+          opt=opt.lower().strip().split()
+          if opt[0] == 'throw':
+            res=monster_attack(l_player)
+            if res =='ok':
+              print("You hit the bull's-eye and you manage to flee on time\n")
+              print("Today you will not die")
+            else:
+              l_player=res
+              print("You fail the launch and the monster manages to reach you\n")
+              print("But fate smiles at you and you manage to escape")
+          else:
+            print("---------------------------------------------------")
+            print('A monster has got you...\n You lost 2 ♥ of life')
+            print("He attacks you but you take the potion and restore 1 ♥ of life")
+            l_player=l_player-1
           person_random_room(currentRoom)
           monster_random_room()
           del_inventory_item('potion')
         else:
-          print('A monster has got you... GAME OVER!')
-          break
+          l_player=l_player-2
+          if l_player < 0 :
+            print('A monster has got you... GAME OVER!')
+            break
+          else:
+            print('A monster has got you...\n You lost 2 ♥ of life')
+            print("---------------------------------------------------")
+            person_random_room(currentRoom)
+            monster_random_room()
       # player wins if they get to the garden with a key and a shield
       if currentRoom == 'Garden' and 'key' in inventory and 'potion' in inventory:
         print('You escaped the house... YOU WIN!')
@@ -282,6 +319,27 @@ while True:
         elif currentRoom == 'Garage':
           print("You don't have the key(basement)!!!")
           currentRoom='Hall'
+      if f_key_guest_house is False:
+        if currentRoom == 'Dining room 2' and 'key(guest_house)' in inventory:
+            print("-----------------------------")
+            print("You have the key(guest_house)!!!\n")
+            print("Use the key(guest_house) and open door.YOU ARE INSIDE SECOND HOUSE!!!")
+            del_inventory_item('key(guest_house)')
+            f_key_second_house=True
+          elif currentRoom == 'Dining room 2':
+            print("You don't have the key(guest_house)!!!")
+            currentRoom='Garden'
+      if currentRoom == 'Bunker':
+        print("-----------------------------")
+        print("You see a door with numeric keypad")
+        print("Try the pin (5)\n")
+        code = input('>')
+        if code== '27426':
+          print("You get to the bunker at last you're safe")
+          print('YOU WIN!!!')
+          break
+        else:
+          print('Check out all these rooms to see the code')
     else:
       print("------------------")
       print("Missing parameters")
