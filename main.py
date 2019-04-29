@@ -169,7 +169,24 @@ rooms = {
             },
             'Bunker' : {'left' : 'Gym 6'
 
-            }
+            },
+		#Casa dels convidats
+		#Planta 1
+		'Room 2' : {'north' : 'Room 1',
+			'west' : 'Balcony',
+			'down' : 'Kitchen 4',
+			'item' : 'pillow'
+		},
+		'Room 1' : {'west' : 'Jacuzzi',
+			'south' : 'Room 2'
+		},
+		'Jacuzzi' : {'east' : 'Room 1',
+			'south' : 'Balcony',
+			'item' : 'potion'
+		},
+		'Balcony' : {'north' : 'Jacuzzi',
+			'east' : 'Room 2'
+		}
          }
 #Llave del sotano se usa
 f_key_basement=False
