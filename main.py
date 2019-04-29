@@ -164,12 +164,29 @@ rooms = {
             'Bathroom 2' : {'north' : 'Laundry 7',
               'east' : 'Dining Room 2',
             },
+
             'Gym 6' : {'up' : 'Dining Room 2',
               'right' : 'Bunker'
             },
             'Bunker' : {'left' : 'Gym 6'
-
-            }
+            },
+        #Casa dels convidats
+        #Planta 1
+            'Room 2' : {'north' : 'Room 1',
+                     	'west' : 'Balcony',
+                     	'down' : 'Kitchen 4',
+                     	'item' : 'pillow'
+             },
+            'Room 1' : {'west' : 'Jacuzzi',
+                       'south' : 'Room 2'
+             },
+             'Jacuzzi' : {'east' : 'Room 1',
+                    	'south' : 'Balcony',
+              		'item' : 'potion'
+              },
+              'Balcony' : {'north' : 'Jacuzzi',
+                       	'east' : 'Room 2'
+              }
          }
 #Llave del sotano se usa
 f_key_basement=False
@@ -326,7 +343,7 @@ while True:
             print("Use the key(guest_house) and open door.YOU ARE INSIDE SECOND HOUSE!!!")
             del_inventory_item('key(guest_house)')
             f_key_second_house=True
-          elif currentRoom == 'Dining room 2':
+        elif currentRoom == 'Dining room 2':
             print("You don't have the key(guest_house)!!!")
             currentRoom='Garden'
       if currentRoom == 'Bunker':
